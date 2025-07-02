@@ -109,7 +109,7 @@
 </head>
 <body>
   <h3>Extract Text to JSON</h3>
-  <p>Select a frame or group in Figma and click below to extract all nested text layers as JSON.</p>
+  <p>Select a frame or group in Figma and click below to generate a Tailwind theme file.</p>
 
   <div id="selected-node"></div>
 
@@ -146,9 +146,9 @@
             selectedNode.innerHTML = "";
         }
         else if(msg.data.event == "output"){
-          const json = JSON.stringify(msg.data.output, null, 2);
-          meta.textContent = `✅ Found ${msg.data.output.length} text layer${msg.data.length === 1 ? '' : 's'}`;
-          pre.textContent = json;
+          const json = msg.data.output;
+          meta.textContent = `✅ Found ${msg.data.output.length} text information${msg.data.length === 1 ? '' : 's'}`;
+          pre.textContent = msg.data.output;
 
           meta.classList.remove('hidden');
           pre.classList.remove('hidden');

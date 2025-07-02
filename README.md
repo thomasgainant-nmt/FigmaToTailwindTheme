@@ -1,6 +1,6 @@
 # FigmaToTailwindTheme
 
-The goal of this Figma plugin is to generate a `tailwindconfig.json` theme file, which we can directly copy and paste into our projects, in order for the frontend programming to comply to the base UX/UI rules set in the Figma file.
+The goal of this Figma plugin is to generate a `tailwind.config.js` theme file, which we can directly copy and paste into our projects, in order for the frontend programming to comply to the base UX/UI rules set in the Figma file.
 
 ## How to run
 
