@@ -2,6 +2,8 @@
 
 figma.showUI(__html__, { width: 400, height: 400 });
 
+var selectedRoot: SceneNode | null = null;
+
 type TextNodeInfo = {
   nodeId: string;
   name: string;
@@ -28,10 +30,24 @@ function extractTextNodes(node: SceneNode): TextNodeInfo[] {
   return results;
 }
 
+figma.on("selectionchange", () => {
+  const selection = figma.currentPage.selection;
+  if (selection.length > 0) {
+    selectedRoot = selection[0];
+  }
+  else{
+    selectedRoot = null;
+  }
+  figma.ui.postMessage({
+    type: "text-json",
+    data: {event: "new-selection", selection: selectedRoot},
+  });
+});
+
 figma.ui.onmessage = (msg: { type: string }) => {
   const selection = figma.currentPage.selection;
 
-  if (selection.length !== 1) {
+  if (selection.length !== 1 || selectedRoot == null) {
     figma.ui.postMessage({
       type: "error",
       message: "Please select exactly one node (frame, group, or component).",
@@ -39,11 +55,10 @@ figma.ui.onmessage = (msg: { type: string }) => {
     return;
   }
 
-  const root = selection[0];
-  const textItems = extractTextNodes(root);
+  const textItems = extractTextNodes(selectedRoot);
 
   figma.ui.postMessage({
     type: "text-json",
-    data: textItems,
+    data: {event: "output", output: textItems},
   });
 };
